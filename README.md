@@ -7,7 +7,7 @@ Authorize use the token in the HTTP-header Authorization:
   Authorization: Token 79a628b2d968cfe1a7f9c5e398f6b96a 
 ```  
   
-The Token is md5 checksum of the HTTP request body for POST or PUT method or md5 checksum of the URI for GET or DELETE method    
+The Token is md5 checksum of the HTTP request body concateate with API_KEY  for POST or PUT method or md5 checksum (concateate with API_KEY) of the URI for GET or DELETE method    
 
 
 
