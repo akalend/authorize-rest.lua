@@ -39,18 +39,18 @@ location /api {
 
 ```
 
-Any HTTP request with fail digest authentification has 403 HTTP return code (Forbidden). For HTTP requests of true API-Token  has access to backend. For exampe the backend is PHP script. So, Your can to use uswgi protocol:
+Any HTTP request with fail digest authentification has 403 HTTP return code (Forbidden). For HTTP requests of true API-Token  has access to backend. For first exampe the backend is PHP script. So, Your can to use uswgi protocol, for Flask or Django for example:
 
 ```
 
   	client_max_body_size       50k;
-		client_body_buffer_size    50k;
+	client_body_buffer_size    50k;
 
-		access_by_lua_file /path/to/access.lua;
+	access_by_lua_file /path/to/access.lua;
 
-    uwsgi_pass          unix:///tmp/uwsgi.sock;
-    include             uwsgi_params;
+	uwsgi_pass          unix:///tmp/uwsgi.sock;
+	include             uwsgi_params;
 
-    uwsgi_param             UWSGI_SCRIPT            webapp;
-    uwsgi_param             UWSGI_CHDIR             /usr/local/www/app1;
+	uwsgi_param             UWSGI_SCRIPT            webapp;
+	uwsgi_param             UWSGI_CHDIR             /usr/local/www/app1;
 ```
