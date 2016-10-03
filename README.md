@@ -65,8 +65,22 @@ The API KEYs store in the shared memory. The initial load API Keys must be by lu
 ```
 curl http://127.0.0.1/init-api-keys
 ```
+The User Id can be from part of url or from body. If user_id is part of body, You can to use by parsing json in the rewrithe pahese and set nginx var $user_id:
+```
+set_by_lua $user_id ' 
+	cjson = require "cjson"
+	ngx.req.read_body()  -- explicitly read the req body
+	local body = ngx.req.get_body_data()
+	if body then
+		-- parsing json body for  {user_id : 123, address: .... }
+		local body = cjson.decode(body)
+		return body.user_id
+	end
+	return
+'; 
 
-The nginx config:
+```
+The nginx config, for user_id as part from url:
 ```
 http{
 	# include MySQL resty lib
@@ -83,12 +97,14 @@ http{
 			
 			# check user_id from first part url:
 			# example /api/123/get-friends
-			
-			set $user_id $1;
+
 			client_max_body_size 50k;
 			client_body_buffer_size 50k;
 
-			 access_by_lua_file /path/to/access.shared_key.lua;
+			#so you can to use set_by_lua fro $user_id 
+			set $user_id $1;
+			
+			access_by_lua_file /path/to/access.shared_key.lua;
 
 			fastcgi_split_path_info ^(.+\.php)(/.+)$;
 			fastcgi_pass 127.0.0.1:9000;
@@ -102,7 +118,7 @@ http{
 
 	   	}
 
-		location /init {
+		location /init-api-keys {
 			allow 127.0.0.1;
 			deny all;
 
