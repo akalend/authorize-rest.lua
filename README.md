@@ -21,9 +21,7 @@ lua-resty-mysql       https://github.com/openresty/lua-resty-mysql    if keys st
 # Usage
 Install the lua-nginx-module. If necessary the protect access to the API by location /api, You must the next nginx config```
 
-
-
-```  location /api {
+location /api {
 
 			client_max_body_size 50k;
 			client_body_buffer_size 50k;
