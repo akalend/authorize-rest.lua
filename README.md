@@ -61,10 +61,22 @@ You must the set API Key in the access.lua scripl, line 2. The value "12345" by 
 local key = "12345" 
 ```
 ### Multiple API KEYS
-The API KEYs store in the shared memory. The initial load API Keys must be by lua init phase or call some init script. If the API KEYs store in the Database (MySQL or PosgreSQL), You can load from module. For example, You can upgrade API Keys one time in Day and call by cron the
+The API KEYs store in the shared memory. The initial load API Keys must be by lua init phase or call some init script. If the API KEYs store in the Database (MySQL or PosgreSQL), You can load from module. For example, You can upgrade API Keys one time in Day and call by cron the (see https://github.com/akalend/authorize-rest.lua/blob/master/init.lua)
 ```
 curl http://127.0.0.1/init-api-keys
 ```
+
+In the script init.lua You must the set database connection string (lines 5-9):
+```
+	local ok, err, errcode, sqlstate = db:connect({ 
+	host = "127.0.0.1",           -- database host 
+	port = 3306,                  -- database port
+	database = "temp",            -- database name	
+	user = "akalend",             -- database user
+	password = "12345"})          -- password
+```
+
+
 The User Id can be from part of url or from body. If user_id is part of body, You can to use by parsing json in the rewrithe pahese and set nginx var $user_id:
 ```
 set_by_lua $user_id ' 
