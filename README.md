@@ -60,3 +60,54 @@ You must the set API Key in the access.lua scripl, line 2. The value "12345" by 
 ```
 local key = "12345" 
 ```
+### Multiple API KEYS
+The API KEYs store in the shared memory. The initial load API Keys must be by lua init phase or call some init script. If the API KEYs store in the Database (MySQL or PosgreSQL), You can load from module. For example, You can upgrade API Keys one time in Day and call by cron the
+```
+curl http://127.0.0.1/init-api-keys
+```
+
+The nginx config:
+```
+http{
+	# include MySQL resty lib
+	lua_package_path "/home/akalend/src/lua-resty-mysql/lib/?.lua;;";
+
+	server {
+		# declare shared table keys 10 Mb
+		lua_shared_dict keys 10m;
+
+        	listen       80;
+        	server_name  localhost;
+
+	  	location ~ ^/api/(\w+)/ {
+			
+			# check user_id from first part url:
+			# example /api/123/get-friends
+			
+			set $user_id $1;
+			client_max_body_size 50k;
+			client_body_buffer_size 50k;
+
+			 access_by_lua_file /path/to/access.shared_key.lua;
+
+			fastcgi_split_path_info ^(.+\.php)(/.+)$;
+			fastcgi_pass 127.0.0.1:9000;
+
+			include fastcgi_params;
+
+			fastcgi_param   USER $user;
+			fastcgi_param   DOCUMENT_ROOT /path/to/www/dir;
+			fastcgi_param   SCRIPT_FILENAME /path/to/www/dir/index.php;
+			fastcgi_index index.php;
+
+	   	}
+
+		location /init {
+			allow 127.0.0.1;
+			deny all;
+
+			content_by_lua_file /path/to/init.lua;	
+		}
+	}
+}
+```
