@@ -19,8 +19,8 @@ lua-cjson-module      https://github.com/openresty/lua-cjson/         for API-Ke
 lua-resty-mysql       https://github.com/openresty/lua-resty-mysql    if keys store in the MySQL      
 
 # Usage
-Install the lua-nginx-module. If necessary the protect access to the API by location /api, You must the next nginx config```
-
+Install the lua-nginx-module. If necessary the protect access to the API by location /api, You must the next nginx config
+```
 location /api {
 
 			client_max_body_size 50k;
@@ -36,10 +36,13 @@ location /api {
 			fastcgi_param   SCRIPT_FILENAME /path/to/www/dir/index.php;
 			fastcgi_index index.php;
 		}
+
 ```
 
 Any HTTP request with fail digest authentification has 403 HTTP return code (Forbidden). For HTTP requests of true API-Token  has access to backend. For exampe the backend is PHP script. So, Your can to use uswgi protocol:
+
 ```
+
   	client_max_body_size       50k;
 		client_body_buffer_size    50k;
 
