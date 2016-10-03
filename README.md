@@ -54,3 +54,8 @@ Any HTTP request with fail digest authentification has 403 HTTP return code (For
 	uwsgi_param             UWSGI_SCRIPT            webapp;
 	uwsgi_param             UWSGI_CHDIR             /usr/local/www/app1;
 ```
+
+You must the set API Key in the access.lua scripl, line 2. The value "12345" by default:
+```
+local key = "12345" 
+```
