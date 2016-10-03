@@ -19,6 +19,7 @@ lua-cjson-module      https://github.com/openresty/lua-cjson/         for API-Ke
 lua-resty-mysql       https://github.com/openresty/lua-resty-mysql    if keys store in the MySQL      
 
 # Usage
+### Single API KEY
 Install the lua-nginx-module. If necessary the protect access to the API by location /api, You must the next nginx config
 ```
 location /api {
