@@ -16,8 +16,6 @@ if  method == "POST" or method == "PUT" then
 			
 		local data = body .. key
 
-		ngx.say("body:", ngx.md5(data))
-		
 		if ngx.md5(data) ~= md_hash then
 			ngx.exit(ngx.HTTP_FORBIDDEN)
 		end
